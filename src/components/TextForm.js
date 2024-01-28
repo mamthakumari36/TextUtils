@@ -29,6 +29,14 @@ export default function TextForm(props) {
         setText(event.target.value)
     }
 
+    const copytext=()=>{
+        var text = document.getElementById("myBox")
+        text.select()
+        navigator.clipboard.writeText(text.value);
+        document.getSelection().removeAllRanges();
+        props.showalert("Copied to clipboard","success")
+    }
+
     const [text, setText] = useState('');
     //text = " text here" // wrong way to change state
     //setText("text here") // correct way to change state
@@ -38,19 +46,20 @@ export default function TextForm(props) {
             <h1>{props.heading}</h1>
             <div className="mb-3">
 
-                <textarea className="form-control" value={text} onChange={handlechange} style={{backgroundColor: props.mode === 'light' ? 'white' : '#1c1818' , color:props.mode === 'light' ? 'black' : 'white'}} id="exampleFormControlTextarea1" rows="10"></textarea>
+                <textarea className="form-control"  value={text} placeholder='Enter text to enable the buttons...' onChange={handlechange} style={{backgroundColor: props.mode === 'light' ? 'white' : '#1c1818' , color:props.mode === 'light' ? 'black' : 'white'}} id="myBox" rows="10"></textarea>
             </div>
             
-            <button className='btn mx-2 my-2' onClick={uppercase}>Convert to Uppercase</button>
-            <button className='btn mx-2 my-2' onClick={lowercase}>Convert to Lowercase</button>
-            <button className='btn mx-2 my-2' onClick={cleartext}>Clear Text</button>
-            <button className='btn mx-2 my-2' onClick={removespace}>Remove space</button>
+            <button disabled={text.length===0} className='btn mx-2 my-2' onClick={uppercase}><strong>Convert to Uppercase</strong> </button>
+            <button disabled={text.length===0} className='btn mx-2 my-2' onClick={lowercase}><strong>Convert to Lowercase</strong></button>
+            <button disabled={text.length===0} className='btn mx-2 my-2' onClick={removespace}><strong>Remove space</strong></button>
+            <button disabled={text.length===0} className='btn mx-2 my-2' onClick={copytext}><strong>Copy text</strong></button>
+            <button disabled={text.length===0} className='btn mx-2 my-2' onClick={cleartext}><strong>Clear Text</strong></button>
             
         </div>
         <div className="container my-4" style={{color : props.mode === 'dark' ? '#d60c7a' : 'black'}}>
             <h1>Your text summary</h1>
-            <b><p>{text.split(' ').length-1} Words and {text.length} Characters</p>
-            <p>{ 0.008 * text.split(' ').length} Minutes read</p>
+            <b><p>{text.split(/\s+/).filter((ele) => {return ele.length !== 0}).length} Words and {text.length} Characters</p>
+            <p>{ 0.008 * text.split(' ').filter((ele) => {return ele.length !== 0}).length} Minutes read</p>
             </b>
 
             <h2>Preview</h2>

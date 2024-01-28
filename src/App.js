@@ -1,15 +1,15 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
-//import About from './components/About';
+import About from './components/About';
 import { useState } from 'react';
 import Alert from './components/Alert';
 import React from "react";
-//import {
-  //BrowserRouter as Router,
-  //Routes,
-  //Route
-//} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 
 
 function App() {
@@ -31,31 +31,29 @@ function App() {
       setMode('dark')
       document.body.style.backgroundColor = "black"
       showAlert("Dark mode has been enabled", "success")
-      document.title = 'TextUtils - Dark Mode'
+      //document.title = 'TextUtils - Dark Mode'
     }
     else {
       setMode('light')
       document.body.style.backgroundColor = "white"
       showAlert("Light mode has been enabled", "success")
-      document.title = 'TextUtils - Light Mode'
+      //document.title = 'TextUtils - Light Mode'
     }
   }
   return (   // this is called JSX
     <>
-     {/* <Router>*/}
+      <Router>
         <Navbar title="TextUtils" aboutTxt="About" mode={mode} toggleMode={toggleMode} />
         <Alert alert={alert} />
         <div className="container">
 
-          {/*<Routes>
-            <Route exact path="/about" element={ <About/>}/>
+          <Routes>
+            <Route path="/" element={<TextForm heading="Enter the text to analyze" showalert={showAlert} mode={mode} />} />
+            <Route path="/about" element={<About mode={mode} />} />
+          </Routes>
 
-            <Route exact path="/" element={ <TextForm heading="Enter the text to analyze" showalert={showAlert} mode={mode} />}/>
-             
-          </Routes>*/}
-          <TextForm heading="Enter the text to analyze" showalert={showAlert} mode={mode} />
         </div>
-     {/* </Router>*/}
+      </Router>
     </>
   );
 }
